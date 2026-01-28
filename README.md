@@ -1,12 +1,15 @@
-# Machine-learning_mistletoeMachine-learning_mistletoe
+# Machine-learning_mistletoe
 
-Suplementary information of the paper "Disentangling biotic and abiotic
-drivers of a neotropical mistletoe" submitted on Oecologia.
+Supplementary information for the manuscript  
+**"Disentangling biotic and abiotic drivers of a Neotropical mistletoe"**,  
+submitted to *Oecologia*.
 
-This repository includes the data, R scripts and Jupiter Noteboks
-used in the analisys.
+This repository provides all data and code necessary to reproduce the analyses 
+presented in the manuscript.
 
-# Instructions
-1. Open the notebooks in Jupyter Lab or the scripts in R
-2. Install required packages
-3. Follow each notebook/script step to reproduce the analyses# Machine-learning_mistletoe
+## Instructions
+1. Open the notebooks in Jupyter Lab or the scripts in R.
+2. Install the required packages.
+3. Follow each notebook or script step-by-step to reproduce the analyses.
+
+
