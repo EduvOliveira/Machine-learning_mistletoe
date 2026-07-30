@@ -1,7 +1,7 @@
 #' ---
 # Disentangling biotic and abiotic drivers of a neotropical mistletoe 
 # By Eduardo V. S. Oliveira
-# 28/01/2026
+# 28/07/2026
 #' ---
 
 ## Niche equivalency and similarity tests
@@ -15,7 +15,7 @@ library(ade4)
 
 # Load bioclimatic data
 
-path<-setwd("J:/Eduardo_Vinícius/R/ParasitaDispersorModelagemNicho/Reanalise/sources")
+path<-setwd("J:/path_to_the_folder")
 
 lst <- list.files(path=path,pattern='tif$',full.names = T) 
 preds<-stack(lst)
@@ -47,10 +47,9 @@ var<-removeCollinearity(preds_AS, multicollinearity.cutoff = 0.7, select.variabl
 # Selecting the variables
 
 bio2<-preds_AS$bio2
-bio4<-preds_AS$bio4
-bio5<-preds_AS$bio5
-bio12<-preds_AS$bio12
-bio14<-preds_AS$bio14
+bio3<-preds_AS$bio3
+bio10<-preds_AS$bio10
+bio13<-preds_AS$bio13
 bio15<-preds_AS$bio15
 bio18<-preds_AS$bio18
 bio19<-preds_AS$bio19
@@ -60,9 +59,18 @@ plot(my_preds)
 
 # Entering data on species occurrences
 
-occ<-read.csv("occ_clean_rea.csv", h=TRUE)
+occ<-read.csv("occ_clean.csv", h=TRUE)
 
-occ<-occ[,2:4]
+occ<-occ[,1:3]
+
+occ$species <- gsub(" ", "_", occ$species)
+
+# Removes species with fewer than 5 records
+
+which(table(occ$species) < 5)
+
+sp.validas <- names(which(table(occ$species) >= 5))
+occ <- occ[occ$species %in% sp.validas, ]
 
 # Extracting climate data from Raster
 clim.bkg<-na.exclude(data.frame(extract(my_preds,ame)))
@@ -82,15 +90,14 @@ nb.sp<-length(sp.list)
 # PCA-env calibration
 pca.env <-dudi.pca(clim.bkg, center = T, scale = T, scannf = F, nf = 2)
 
-# Selection of plant species
+# Selection of species
 
 levels(as.factor(occ$spp))
 
-sp.choice<- c('e_cristata','p_robustus','q_dichotoma', 'q_grandiflora','q_multiflora','q_parviflora','s_convallariodora','s_ruficapillus','t_sayaca','t_viridis','v_cinnamomea','v_elliptica','v_rufa','v_thyrsoidea','v_tucanorum') 
+sp.choice<- c('Campomanesia_adamantium','Diplusodon_hirsutus', 'Elaenia_cristata','Miconia_albicans','Miconia_ferruginata','Psittacanthus_robustus','Qualea_cordata','Qualea_dichotoma','Qualea_grandiflora','Qualea_multiflora','Qualea_parviflora','Salvertia_convallariodora','Schistochlamys_ruficapillus','Tersina_viridis','Thraupis_sayaca','Trembleya_laniflora','Vochysia_cinnamomea','Vochysia_elliptica','Vochysia_rufa','Vochysia_thyrsoidea','Vochysia_tucanorum')  
 
 sp.combn<-combn(sp.choice,2) 
-nsp<-15
-
+nsp<-22
 
 # Arrays for storing
 overlap<-matrix(nrow=nsp,ncol=nsp,dimnames = list(sp.choice,sp.choice))		#Records overlap values
